@@ -1,0 +1,57 @@
+#%RAML 1.0
+title: e-bazaar API
+description: This is the service to get the products based on the product name, brand and type
+baseUri:  http://e-bazaar-api:9030
+mediaType: application/json
+traits: 
+   -responseErrorCode404:
+    usage: It is used to define the error status with status code 404
+    responses: 
+     404:
+       body: 
+         application/json:
+           example: |
+              { "message":"Server Not Found!!!"}
+/productName:
+ /{productname}:
+  get:
+    queryParameters: 
+      sortby:
+        displayName: SortBy
+        type: string
+        required: false
+    responses: 
+     200:
+      body: 
+        application/json:
+         schema: !include schemas/e-bazaar-api-response-schema.json
+    is: [-responseErrorCode404]  
+/brand:
+ /{brandname}: 
+  get:
+    queryParameters: 
+      sortby:
+        displayName: SortBy
+        type: string
+        required: false
+    responses: 
+     200:
+      body: 
+        application/json:
+         schema: !include schemas/e-bazaar-api-response-schema.json
+    is: [-responseErrorCode404]
+/type:
+ /{typename}:
+  get:
+    queryParameters: 
+      sortby:
+       displayName: SortBy
+       type: string
+       default: lowtohigh
+       required: false
+    responses:
+      200:
+       body: 
+        application/json:
+         schema: !include schemas/e-bazaar-api-response-schema.json
+    is: [-responseErrorCode404]

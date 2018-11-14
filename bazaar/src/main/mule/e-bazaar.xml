@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+   <flow name="e-bazaar-main">
+        <http:listener config-ref="e-bazaar-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="e-bazaar-config" />
+        <error-handler ref="exceptionhandler">    
+        </error-handler>
+    </flow>
+    <flow name="e-bazaar-console">
+        <http:listener config-ref="e-bazaar-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="e-bazaar-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="get:\brand\(brandname):e-bazaar-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="731c6df8-99ba-4818-ae94-ac47d6b7d719">
+            <ee:variables>
+                <ee:set-variable variableName="brandname"><![CDATA[attributes.uriParams.brandname]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="e-bazaar-brand-Sub_Flow" doc:id="beeaf141-e422-4ee5-bc9e-afeba1b5ccd1" name="e-bazaar-brand-Sub_Flow"/>
+    </flow>
+    <flow name="get:\productName\(productname):e-bazaar-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="deaa4c62-4545-4661-941e-6193adb51bd3">
+            <ee:variables>
+                <ee:set-variable variableName="productname"><![CDATA[attributes.uriParams.productname]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="e-bazaar-productname-Sub_Flow" doc:id="95f1b186-3df3-459e-97ac-91a0104e002d" name="e-bazaar-productname-Sub_Flow"/>
+    </flow>
+    <flow name="get:\type\(typename):e-bazaar-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="43fbf238-6aa2-4fa9-966c-48ba13ba6446">
+            <ee:variables>
+                <ee:set-variable variableName="typename"><![CDATA[attributes.uriParams.typename]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="e-bazaar-type-Sub_Flow" doc:id="0f7228ca-fa82-47b7-8ba5-cc87e1626e16" name="e-bazaar-type-Sub_Flow"/>
+    </flow>
+</mule>

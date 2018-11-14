@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="e-bazaar-productname-Sub_Flow" doc:id="17aa8fa9-c072-46ee-a6bb-76c9ae6c3783" >
+		<logger level="INFO" doc:name="Logger" doc:id="0a127536-569f-4958-8c52-72216b2066df" message="Getting details based on ProductName!!!  #[vars.productname] "/>
+		<flow-ref doc:name="e-bazaar-spec-Sub_Flow" doc:id="931fc6d2-cc9e-4c6d-881b-95ce1eab4ccd" name="e-bazaar-spec-Sub_Flow"/>
+		<set-payload value='[
+    {
+      "product_name" : "carrot",
+      "product_id" : "V_34748",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Beans",
+      "type" :  "vegetable",
+      "product_id" : "V_34749",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Brinjal",
+      "type" :  "vegetable",
+      "product_id" : "V_34750",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 5
+    },
+    {
+      "product_name" : "Potatoe",
+      "product_id" : "V_34800",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Apple",
+      "product_id" : "F_20001",
+      "type" :  "Fruits",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 20
+    },
+    {
+      "product_name" : "Orange",
+      "product_id" : "F_20011",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Grape",
+      "product_id" : "F_20021",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10001",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Casio",
+      "price" : 100
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10002",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Micra",
+      "price" : 150
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10003",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10004",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Galio",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10005",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10006",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    }
+]' doc:name="Set Payload" doc:id="464b3958-ae24-4920-a07c-37d8b2a79d7e" mimeType="application/json"/>
+		<ee:transform doc:name="Transform Message" doc:id="b6fda5ed-ae52-4997-8972-9a632c348cb8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import modules::CustomGlobalFunctions as call
+output application/json
+var sort = attributes.queryParams.sortby
+fun specFilter(id)= call::specDetailswithId(vars.specData) filter $.code == id
+---
+call::sorting(payload map (( payload01 , indexOfPayload01 ) -> {
+	product_name: payload01.product_name,
+	product_id: payload01.product_id,
+	"type": payload01."type",
+	metric: payload01.metric,
+	brand: payload01.brand,
+	price: payload01.price,
+	spec: specFilter(payload01.product_id)
+}) filter $.'product_name' ==  vars.productname, sort)
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="e-bazaar-brand-Sub_Flow" doc:id="0449cc91-245d-4735-a255-2009b69c848a" >
+		<logger level="INFO" doc:name="Logger" doc:id="fb9877fb-94e5-4ecf-81ac-d1a970953a48" message="Getting details based on BrandName!!!  #[vars.brandname] "/>
+		<flow-ref doc:name="e-bazaar-spec-Sub_Flow" doc:id="6c9cb7f5-2cf4-456e-8525-2a969c9442a6" name="e-bazaar-spec-Sub_Flow"/>
+		<set-payload value='[
+    {
+      "product_name" : "carrot",
+      "product_id" : "V_34748",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Beans",
+      "type" :  "vegetable",
+      "product_id" : "V_34749",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Brinjal",
+      "type" :  "vegetable",
+      "product_id" : "V_34750",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 5
+    },
+    {
+      "product_name" : "Potatoe",
+      "product_id" : "V_34800",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Apple",
+      "product_id" : "F_20001",
+      "type" :  "Fruits",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 20
+    },
+    {
+      "product_name" : "Orange",
+      "product_id" : "F_20011",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Grape",
+      "product_id" : "F_20021",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10001",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Casio",
+      "price" : 100
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10002",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Micra",
+      "price" : 150
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10003",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10004",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Galio",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10005",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10006",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    }
+]' doc:name="Set Payload" doc:id="bd29bd75-7e67-4aaf-b102-22471c8db906" mimeType="application/json" />
+		<ee:transform doc:name="Transform Message" doc:id="4b7faba6-b0db-4345-9385-f5bfb6b3b62b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import modules::CustomGlobalFunctions as call
+output application/json
+var sort = attributes.queryParams.sortby
+fun specFilter(id)= call::specDetailswithId(vars.specData) filter $.code == id
+---
+call::sorting(payload map (( payload01 , indexOfPayload01 ) -> {
+	product_name: payload01.product_name,
+	product_id: payload01.product_id,
+	"type": payload01."type",
+	metric: payload01.metric,
+	brand: payload01.brand,
+	price: payload01.price,
+	spec: specFilter(payload01.product_id)
+}) filter $.'brand' ==  vars.brandname, sort)
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="e-bazaar-spec-Sub_Flow" doc:id="cf6e54ad-6ffe-4e5e-be59-9866aea84929" >
+		<set-payload value='[
+   {
+     "type" : "Electronics",
+	 "code" : "E_10004",
+	 "brand" : "Galio",
+	 "spec" : {
+	           "size" : "7 x7 cm",
+			   "type" : "scientific",
+			   "color" :  "black"
+			   }
+	},		   
+	{
+     "type" : "Electronics",
+	 "code" : "E_10005",
+	 "brand" : "Photon",
+	 "spec" : {
+	           "size" : "7 x7 cm",
+			   "type" : "Normal",
+			   "color" :  "black"
+			   }
+	},
+	{
+     "type" : "Electronics",
+	 "code" : "E_10006",
+	 "brand" : "Photon9",
+	 "spec" : {
+	           "size" : "7 x7 cm",
+			   "type" : "scientific",
+			   "color" :  "blue"
+			   }
+	},
+	{
+     "type" : "Electronics",
+	 "code" : "E_10001",
+	 "brand" : "Casio",
+	 "spec" : {
+	           "size" : "7 x5 cm",
+			   "type" : "scientific",
+			   "color" :  "black"
+			   }
+	},
+	{
+     "type" : "Electronics",
+	 "code" : "E_10002",
+	 "brand" : "Micra",
+	 "spec" : {
+	           "size" : "7 x5 cm",
+			   "type" : "scientific",
+			   "color" :  "black"
+			   }
+	},
+	{
+     "type" : "Electronics",
+	 "code" : "E_10003",
+	 "brand" : "Photon10",
+	 "spec" : {
+	           "size" : "7 x5 cm",
+			   "type" : "Normal",
+			   "color" :  "black"
+			   }
+	}
+
+]' doc:name="Set Payload" doc:id="5907c94c-4fef-485e-bc23-315a3cc47a38" mimeType="application/json"/>
+		<set-variable value="#[payload]" doc:name="Spec Data" doc:id="9db19003-0d64-4fd9-89af-dc4e527df4c8" variableName="specData" mimeType="application/json"/>
+	</sub-flow>
+	<sub-flow name="e-bazaar-type-Sub_Flow" doc:id="dc36a26c-a1a7-4c01-92bd-deca9a4ca959" >
+		<logger level="INFO" doc:name="Logger" doc:id="204f0d68-a1db-413f-8861-56a378aae418" message="Getting details based on TypeName!!!  #[vars.typename] "/>
+		<flow-ref doc:name="e-bazaar-spec-Sub_Flow" doc:id="4b0c1092-a673-4428-8817-9a46d6e1c3dd" name="e-bazaar-spec-Sub_Flow"/>
+		<set-payload value='[
+    {
+      "product_name" : "carrot",
+      "product_id" : "V_34748",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Beans",
+      "type" :  "vegetable",
+      "product_id" : "V_34749",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Brinjal",
+      "type" :  "vegetable",
+      "product_id" : "V_34750",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 5
+    },
+    {
+      "product_name" : "Potatoe",
+      "product_id" : "V_34800",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Apple",
+      "product_id" : "F_20001",
+      "type" :  "Fruits",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 20
+    },
+    {
+      "product_name" : "Orange",
+      "product_id" : "F_20011",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Grape",
+      "product_id" : "F_20021",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10001",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Casio",
+      "price" : 100
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10002",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Micra",
+      "price" : 150
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10003",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10004",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Galio",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10005",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10006",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    }
+]' doc:name="Set Payload" doc:id="2cf98fb7-0f4b-4839-b10c-123e4ed0e46d" mimeType="application/json"/>
+		<ee:transform doc:name="Transform Message" doc:id="1a7918f0-bc29-4667-a0af-0da1a0fe3ac3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import modules::CustomGlobalFunctions as call
+output application/json
+var sort = attributes.queryParams.sortby
+fun specFilter(id)= call::specDetailswithId(vars.specData) filter $.code == id
+---
+call::sorting(payload map (( payload01 , indexOfPayload01 ) -> {
+	product_name: payload01.product_name,
+	product_id: payload01.product_id,
+	"type": payload01."type",
+	metric: payload01.metric,
+	brand: payload01.brand,
+	price: payload01.price,
+	spec: specFilter(payload01.product_id)
+}) filter $.'type' ==  vars.typename, sort)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

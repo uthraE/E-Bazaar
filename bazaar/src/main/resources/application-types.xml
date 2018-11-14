@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="productdetails" format="json">
+      <types:shape format="weave" example="api/examples/e-bazaar-api-response-example.json"><![CDATA[%dw 2.0
+type productdetails = Array<{|
+  product_name: String, 
+  product_id: String, 
+  "type": String, 
+  metric: String, 
+  brand: String, 
+  price: Number {"typeId": "int"}
+|}> {"MetadataFormat": "json",
+"example": "[{\"product_name\":\"carrot\",\"product_id\":\"V_34748\",\"type\":\"vegetable\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":30},{\"product_name\":\"Beans\",\"type\":\"vegetable\",\"product_id\":\"V_34749\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":10},{\"product_name\":\"Brinjal\",\"type\":\"vegetable\",\"product_id\":\"V_34750\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":5},{\"product_name\":\"Potatoe\",\"product_id\":\"V_34800\",\"type\":\"vegetable\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":30},{\"product_name\":\"Apple\",\"product_id\":\"F_20001\",\"type\":\"Fruits\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":20},{\"product_name\":\"Orange\",\"product_id\":\"F_20011\",\"type\":\"Fruit\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":10},{\"product_name\":\"Grape\",\"product_id\":\"F_20021\",\"type\":\"Fruit\",\"metric\":\"kg\",\"brand\":\"NA\",\"price\":30},{\"product_name\":\"Calculator\",\"product_id\":\"E_10001\",\"type\":\"Electronics\",\"metric\":\"NA\",\"brand\":\"Casio\",\"price\":100},{\"product_name\":\"Calculator\",\"product_id\":\"E_10002\",\"type\":\"Electronics\",\"metric\":\"NA\",\"brand\":\"Micra\",\"price\":150},{\"product_name\":\"Calculator\",\"product_id\":\"E_10003\",\"type\":\"Electronics\",\"metric\":\"NA\",\"brand\":\"Photon\",\"price\":250},{\"product_name\":\"Calculator\",\"product_id\":\"E_10004\",\"type\":\"Electronics\",\"metric\":\"NA\",\"brand\":\"Galio\",\"price\":250},{\"product_name\":\"Calculator\",\"product_id\":\"E_10005\",\"type\":\"Electronics\",\"metric\":\"NA\",\"brand\":\"Photon\",\"price\":250},{\"product_name\":\"Calculator\",\"product_id\":\"E_10006\",\"type\":\"Electronics\",\"metric\":\"NA\",\"brand\":\"Photon\",\"price\":250}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#b6fda5ed-ae52-4997-8972-9a632c348cb8">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="productdetails"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="productdetails"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4b7faba6-b0db-4345-9385-f5bfb6b3b62b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="productdetails"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="productdetails"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#1a7918f0-bc29-4667-a0af-0da1a0fe3ac3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="productdetails"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="productdetails"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

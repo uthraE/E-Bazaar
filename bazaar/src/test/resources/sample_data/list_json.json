@@ -1,0 +1,106 @@
+[
+    {
+      "product_name" : "carrot",
+      "product_id" : "V_34748",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Beans",
+      "type" :  "vegetable",
+      "product_id" : "V_34749",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Brinjal",
+      "type" :  "vegetable",
+      "product_id" : "V_34750",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 5
+    },
+    {
+      "product_name" : "Potatoe",
+      "product_id" : "V_34800",
+      "type" :  "vegetable",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Apple",
+      "product_id" : "F_20001",
+      "type" :  "Fruits",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 20
+    },
+    {
+      "product_name" : "Orange",
+      "product_id" : "F_20011",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 10
+    },
+    {
+      "product_name" : "Grape",
+      "product_id" : "F_20021",
+      "type" :  "Fruit",
+      "metric" : "kg",
+      "brand" : "NA",
+      "price" : 30
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10001",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Casio",
+      "price" : 100
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10002",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Micra",
+      "price" : 150
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10003",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10004",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Galio",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10005",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    },
+    {
+      "product_name" : "Calculator",
+      "product_id" : "E_10006",
+      "type" :  "Electronics",
+      "metric" : "NA",
+      "brand" : "Photon",
+      "price" : 250
+    }
+]
